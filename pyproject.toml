@@ -1,0 +1,31 @@
+[project]
+name = "specgraph"
+version = "0.1.0"
+description = "Minimal implementation of spec-kit's specify and plan phases using LangGraph workflows"
+authors = [{name = "Jeremy Eder", email = "jeder@redhat.com"}]
+requires-python = ">=3.11"
+dependencies = [
+    "langgraph>=0.2.0",
+    "anthropic>=0.39.0",
+    "click>=8.1.0",
+    "python-dotenv>=1.0.0",
+    "langchain-core>=0.3.0",
+]
+
+[project.scripts]
+acpctl = "specgraph.cli:cli"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/specgraph"]
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[tool.isort]
+profile = "black"
+line_length = 88
