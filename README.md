@@ -104,9 +104,11 @@ specgraph/
 
 ## Implemented LangGraph Workflows
 
-### Workflow Visualizations
+### 1. Specify Workflow (`specify.py`)
 
-#### 1. Specify Workflow
+Generates product specifications from feature descriptions.
+
+**Workflow Diagram**:
 
 ```mermaid
 flowchart TD
@@ -125,72 +127,6 @@ flowchart TD
     style Generate fill:#1f77b4,color:#fff
     style Save fill:#1f77b4,color:#fff
 ```
-
-#### 2. Plan Workflow
-
-```mermaid
-flowchart TD
-    Start((START)) --> Load[load_specification<br/>Find and read latest spec]
-    Load --> Check{error?}
-    Check -->|yes| End1((END))
-    Check -->|no| Generate[generate_plan<br/>Claude creates technical plan]
-    Generate --> Save[save_plan<br/>Write plan.md]
-    Save --> End2((END))
-
-    style Start fill:#2ca02c,color:#fff
-    style End1 fill:#d62728,color:#fff
-    style End2 fill:#d62728,color:#fff
-    style Check fill:#ff7f0e,color:#fff
-    style Load fill:#1f77b4,color:#fff
-    style Generate fill:#1f77b4,color:#fff
-    style Save fill:#1f77b4,color:#fff
-```
-
-#### 3. Tasks Workflow
-
-```mermaid
-flowchart TD
-    Start((START)) --> Load[load_spec_and_plan<br/>Read specification.md and plan.md]
-    Load --> Check{error?}
-    Check -->|yes| End1((END))
-    Check -->|no| Generate[generate_tasks<br/>Claude creates task breakdown]
-    Generate --> Save[save_tasks<br/>Write tasks.md]
-    Save --> End2((END))
-
-    style Start fill:#2ca02c,color:#fff
-    style End1 fill:#d62728,color:#fff
-    style End2 fill:#d62728,color:#fff
-    style Check fill:#ff7f0e,color:#fff
-    style Load fill:#1f77b4,color:#fff
-    style Generate fill:#1f77b4,color:#fff
-    style Save fill:#1f77b4,color:#fff
-```
-
-#### 4. Clarify Workflow (Dual-Phase)
-
-```mermaid
-flowchart TD
-    Start((START)) --> Load[load_specification<br/>Read current spec]
-    Load --> Mode{answers<br/>provided?}
-    Mode -->|no<br/>Phase 1| Questions[analyze_and_generate_questions<br/>Claude identifies ambiguities]
-    Questions --> End1((END))
-    Mode -->|yes<br/>Phase 2| Update[update_with_answers<br/>Claude integrates clarifications]
-    Update --> Save[save_updated_specification<br/>Overwrite specification.md]
-    Save --> End2((END))
-
-    style Start fill:#2ca02c,color:#fff
-    style End1 fill:#d62728,color:#fff
-    style End2 fill:#d62728,color:#fff
-    style Mode fill:#ff7f0e,color:#fff
-    style Load fill:#1f77b4,color:#fff
-    style Questions fill:#1f77b4,color:#fff
-    style Update fill:#1f77b4,color:#fff
-    style Save fill:#1f77b4,color:#fff
-```
-
-### 1. Specify Workflow (`specify.py`)
-
-Generates product specifications from feature descriptions.
 
 **State Definition**:
 
@@ -223,6 +159,26 @@ START → analyze → [conditional] → generate → save → END
 ### 2. Plan Workflow (`plan.py`)
 
 Generates technical implementation plans from specifications.
+
+**Workflow Diagram**:
+
+```mermaid
+flowchart TD
+    Start((START)) --> Load[load_specification<br/>Find and read latest spec]
+    Load --> Check{error?}
+    Check -->|yes| End1((END))
+    Check -->|no| Generate[generate_plan<br/>Claude creates technical plan]
+    Generate --> Save[save_plan<br/>Write plan.md]
+    Save --> End2((END))
+
+    style Start fill:#2ca02c,color:#fff
+    style End1 fill:#d62728,color:#fff
+    style End2 fill:#d62728,color:#fff
+    style Check fill:#ff7f0e,color:#fff
+    style Load fill:#1f77b4,color:#fff
+    style Generate fill:#1f77b4,color:#fff
+    style Save fill:#1f77b4,color:#fff
+```
 
 **State Definition**:
 
@@ -257,6 +213,26 @@ START → load_spec → [conditional] → generate_plan → save_plan → END
 
 Generates detailed task breakdowns following Spec-Kit conventions.
 
+**Workflow Diagram**:
+
+```mermaid
+flowchart TD
+    Start((START)) --> Load[load_spec_and_plan<br/>Read specification.md and plan.md]
+    Load --> Check{error?}
+    Check -->|yes| End1((END))
+    Check -->|no| Generate[generate_tasks<br/>Claude creates task breakdown]
+    Generate --> Save[save_tasks<br/>Write tasks.md]
+    Save --> End2((END))
+
+    style Start fill:#2ca02c,color:#fff
+    style End1 fill:#d62728,color:#fff
+    style End2 fill:#d62728,color:#fff
+    style Check fill:#ff7f0e,color:#fff
+    style Load fill:#1f77b4,color:#fff
+    style Generate fill:#1f77b4,color:#fff
+    style Save fill:#1f77b4,color:#fff
+```
+
 **State Definition**:
 
 ```python
@@ -288,6 +264,28 @@ START → load_spec_and_plan → [conditional] → generate_tasks → save_tasks
 ### 4. Clarify Workflow (`clarify.py`)
 
 Interactive workflow for resolving specification ambiguities.
+
+**Workflow Diagram**:
+
+```mermaid
+flowchart TD
+    Start((START)) --> Load[load_specification<br/>Read current spec]
+    Load --> Mode{answers<br/>provided?}
+    Mode -->|no<br/>Phase 1| Questions[analyze_and_generate_questions<br/>Claude identifies ambiguities]
+    Questions --> End1((END))
+    Mode -->|yes<br/>Phase 2| Update[update_with_answers<br/>Claude integrates clarifications]
+    Update --> Save[save_updated_specification<br/>Overwrite specification.md]
+    Save --> End2((END))
+
+    style Start fill:#2ca02c,color:#fff
+    style End1 fill:#d62728,color:#fff
+    style End2 fill:#d62728,color:#fff
+    style Mode fill:#ff7f0e,color:#fff
+    style Load fill:#1f77b4,color:#fff
+    style Questions fill:#1f77b4,color:#fff
+    style Update fill:#1f77b4,color:#fff
+    style Save fill:#1f77b4,color:#fff
+```
 
 **State Definition**:
 
