@@ -104,6 +104,92 @@ specgraph/
 
 ## Implemented LangGraph Workflows
 
+### Workflow Visualizations
+
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#1f77b4','primaryTextColor':'#fff','primaryBorderColor':'#1f77b4','lineColor':'#666','secondaryColor':'#ff7f0e','tertiaryColor':'#2ca02c'}}}%%
+
+flowchart TD
+    Start1((START)) --> A1[analyze_input]
+    A1 --> C1{error?}
+    C1 -->|yes| End1((END))
+    C1 -->|no| G1[generate_specification]
+    G1 --> S1[save_specification]
+    S1 --> End1
+
+    Start2((START)) --> L2[load_specification]
+    L2 --> C2{error?}
+    C2 -->|yes| End2((END))
+    C2 -->|no| G2[generate_plan]
+    G2 --> S2[save_plan]
+    S2 --> End2
+
+    Start3((START)) --> L3[load_spec_and_plan]
+    L3 --> C3{error?}
+    C3 -->|yes| End3((END))
+    C3 -->|no| G3[generate_tasks]
+    G3 --> S3[save_tasks]
+    S3 --> End3
+
+    Start4((START)) --> L4[load_specification]
+    L4 --> C4{answers<br/>provided?}
+    C4 -->|no| A4[analyze_and_generate_questions]
+    A4 --> End4((END))
+    C4 -->|yes| U4[update_with_answers]
+    U4 --> S4[save_updated_specification]
+    S4 --> End4
+
+    subgraph "1. Specify Workflow"
+        Start1
+        A1
+        C1
+        G1
+        S1
+        End1
+    end
+
+    subgraph "2. Plan Workflow"
+        Start2
+        L2
+        C2
+        G2
+        S2
+        End2
+    end
+
+    subgraph "3. Tasks Workflow"
+        Start3
+        L3
+        C3
+        G3
+        S3
+        End3
+    end
+
+    subgraph "4. Clarify Workflow (Dual-Phase)"
+        Start4
+        L4
+        C4
+        A4
+        U4
+        S4
+        End4
+    end
+
+    style Start1 fill:#2ca02c
+    style Start2 fill:#2ca02c
+    style Start3 fill:#2ca02c
+    style Start4 fill:#2ca02c
+    style End1 fill:#d62728
+    style End2 fill:#d62728
+    style End3 fill:#d62728
+    style End4 fill:#d62728
+    style C1 fill:#ff7f0e
+    style C2 fill:#ff7f0e
+    style C3 fill:#ff7f0e
+    style C4 fill:#ff7f0e
+```
+
 ### 1. Specify Workflow (`specify.py`)
 
 Generates product specifications from feature descriptions.
