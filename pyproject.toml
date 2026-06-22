@@ -5,7 +5,7 @@ description = "Minimal implementation of spec-kit's specify and plan phases usin
 authors = [{name = "Jeremy Eder", email = "jeder@redhat.com"}]
 requires-python = ">=3.11"
 dependencies = [
-    "langgraph>=0.2.0",
+    "langgraph>=1.2.6",
     "anthropic>=0.39.0",
     "click>=8.1.0",
     "python-dotenv>=1.0.0",
